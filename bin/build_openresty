@@ -8,7 +8,7 @@ pcre_version=8.37
 nginx_version=1.7.10.1
 release=`lsb_release -cs`
 sudo apt-get update
-sudo apt-get install -fy build-essential zlib1g-dev
+sudo apt-get install -fy build-essential zlib1g-dev libreadline-dev libncurses5-dev libpcre3-dev libssl-dev perl make
 
 if [ $release = "trusty" ]; then
     # We need libssl-dev to compile nginx on trusty
@@ -17,10 +17,10 @@ fi
 
 
 src=~/src
-build=/app/nginx
+build=/app/openresty
 target=/vagrant/vendor
 
-sudo rm -rf $build && sudo mkdir -p $build && sudo chown -R vagrant:vagrant $build
+sudo rm -rf $build $src && sudo mkdir -p $build && sudo chown -R vagrant:vagrant $build
 mkdir -p $src
 cd $src
 
@@ -38,25 +38,25 @@ wget http://openresty.org/download/ngx_openresty-$nginx_version.tar.gz
 tar -xvzf ngx_openresty-$nginx_version.tar.gz
 cd ngx_openresty-$nginx_version
 
-./configure --prefix=$build --with-http_ssl_module --with-pcre=$src/pcre-$pcre_version
+./configure --prefix=$build  --with-pcre=$src/pcre-$pcre_version --with-http_ssl_module --with-http_gzip_static_module
 make
 sudo make install
 
 # Remove extras (help, utilities etc)
 
-sudo rm -rf $build/bin
-sudo rm -rf $build/sbin/nginx.old
-sudo rm -rf $build/include
-sudo rm -rf $build/share/man
+# sudo rm -rf $build/bin
+# sudo rm -rf $build/sbin/nginx.old
+# sudo rm -rf $build/include
+# sudo rm -rf $build/share/man
 
 # Ensure we include the licenses in the tarball
 
-# PCRE license is in /app/nginx/share/doc/pcre/LICENCE
-# Put Nginx license is in /app/nginx/share/doc/nginx
+# PCRE license is in $build/share/doc/pcre/LICENCE
+# Put Nginx license is in $build/share/doc/nginx
 # sudo mkdir -p $build/share/doc/nginx
-sudo cp $src/ngx_openresty-$nginx_version/README.markdown /app/nginx/share/doc/nginx
+sudo cp $src/ngx_openresty-$nginx_version/README.markdown $build/share/doc/nginx
 
 # Archive it all up
 mkdir -p $target
 cd /app
-tar -zcvpf $target/nginx-$nginx_version.tar.gz nginx/
+tar -zcvpf $target/nginx-$nginx_version.tar.gz openresty/

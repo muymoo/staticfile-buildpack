@@ -13,18 +13,18 @@
 # ------------------------------------------------------------------------------------------------
 
 export APP_ROOT=$HOME
-export LD_LIBRARY_PATH=$APP_ROOT/nginx/nginx/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=$APP_ROOT/openresty/nginx/lib:$LD_LIBRARY_PATH
 
-conf_file=$APP_ROOT/nginx/nginx/conf/nginx.conf
+conf_file=$APP_ROOT/openresty/nginx/conf/nginx.conf
 
-erb $conf_file > $APP_ROOT/nginx/nginx/conf/nginx-final.conf
+erb $conf_file > $APP_ROOT/openresty/nginx/conf/nginx-final.conf
 
 # ------------------------------------------------------------------------------------------------
 
-touch $APP_ROOT/nginx/nginx/logs/access.log
-touch $APP_ROOT/nginx/nginx/logs/error.log
+touch $APP_ROOT/openresty/nginx/logs/access.log
+touch $APP_ROOT/openresty/nginx/logs/error.log
 
-(tail -f -n 0 $APP_ROOT/nginx/nginx/logs/*.log &)
-exec $APP_ROOT/nginx/nginx/sbin/nginx -p $APP_ROOT/nginx -c $APP_ROOT/nginx/nginx/conf/nginx-final.conf
+(tail -f -n 0 $APP_ROOT/openresty/nginx/logs/*.log &)
+exec $APP_ROOT/openresty/nginx/sbin/nginx -p $APP_ROOT/nginx -c $APP_ROOT/openresty/nginx/conf/nginx-final.conf
 
 # ------------------------------------------------------------------------------------------------
