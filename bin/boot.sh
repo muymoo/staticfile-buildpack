@@ -13,7 +13,7 @@
 # ------------------------------------------------------------------------------------------------
 
 export APP_ROOT=$HOME
-export LD_LIBRARY_PATH=$APP_ROOT/openresty/nginx/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=$APP_ROOT/openresty/lib:$LD_LIBRARY_PATH
 
 conf_file=$APP_ROOT/openresty/nginx/conf/nginx.conf
 
