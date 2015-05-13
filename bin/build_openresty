@@ -38,7 +38,7 @@ wget http://openresty.org/download/ngx_openresty-$nginx_version.tar.gz
 tar -xvzf ngx_openresty-$nginx_version.tar.gz
 cd ngx_openresty-$nginx_version
 
-./configure --prefix=$build --with-pcre=$src/pcre-$pcre_version
+./configure --prefix=$build --with-http_ssl_module --with-pcre=$src/pcre-$pcre_version
 make
 sudo make install
 
