@@ -42,7 +42,7 @@ rsync -a \
       --exclude='/*.lua' \
       $root_dir/ $build_dir/public
 
-status "Setting up nginx"
+status "Setting up nginx on server "$(lsb_release -cs)
 tar xzf $compile_nginx_tgz
 
 cp -f $compile_buildpack_dir/conf/nginx.conf openresty/nginx/conf/nginx.conf
