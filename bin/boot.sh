@@ -17,12 +17,9 @@ export LD_LIBRARY_PATH=$APP_ROOT/openresty/lib:$LD_LIBRARY_PATH
 
 conf_file=$APP_ROOT/openresty/nginx/conf/nginx.conf
 
-echo $(cat $conf_file)
+echo $(env)
 
 erb $conf_file > $APP_ROOT/openresty/nginx/conf/nginx-final.conf
-
-echo "NGINX FINAL CONF";
-echo $(cat $APP_ROOT/openresty/nginx/conf/nginx-final.conf)
 
 # ------------------------------------------------------------------------------------------------
 
