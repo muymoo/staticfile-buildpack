@@ -44,19 +44,24 @@ sudo make install
 
 # Remove extras (help, utilities etc)
 
-# sudo rm -rf $build/bin
-# sudo rm -rf $build/sbin/nginx.old
-# sudo rm -rf $build/include
-# sudo rm -rf $build/share/man
+sudo rm -rf $build/bin
+sudo rm -rf $build/sbin/nginx.old
+sudo rm -rf $build/share/man
 
 # Ensure we include the licenses in the tarball
 
 # PCRE license is in $build/share/doc/pcre/LICENCE
 # Put Nginx license is in $build/share/doc/nginx
-# sudo mkdir -p $build/share/doc/nginx
+sudo mkdir -p $build/share/doc/nginx
 sudo cp $src/ngx_openresty-$nginx_version/README.markdown $build/share/doc/nginx
+
+cd /tmp/
+wget https://raw.githubusercontent.com/bungle/lua-resty-session/master/lib/resty/session.lua --no-check-certificate
+# Add lua-resty-session for session management
+sudo mv /tmp/session.lua $build/lualib/resty
+
 
 # Archive it all up
 mkdir -p $target
 cd /app
-tar -zcvpf $target/nginx-$nginx_version.tar.gz openresty/
+tar -zcvpf $target/nginx-$nginx_version-$release.tar.gz openresty/

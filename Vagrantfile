@@ -12,4 +12,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     lucid.vm.provision "shell", inline: "/vagrant/bin/build_openresty"
   end
 
+  config.vm.define "trusty" do |trusty|
+    trusty.vm.box = "ubuntu/trusty64"
+    trusty.vm.provision "shell", inline: "/vagrant/bin/build_openresty"
+  end
 end
