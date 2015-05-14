@@ -30,6 +30,6 @@ touch $APP_ROOT/openresty/nginx/logs/access.log
 touch $APP_ROOT/openresty/nginx/logs/error.log
 
 (tail -f -n 0 $APP_ROOT/openresty/nginx/logs/*.log &)
-exec $APP_ROOT/openresty/nginx/sbin/nginx -p $APP_ROOT/nginx -c $APP_ROOT/openresty/nginx/conf/nginx-final.conf
+exec $APP_ROOT/openresty/nginx/sbin/nginx -p $APP_ROOT/openresty/nginx -c $APP_ROOT/openresty/nginx/conf/nginx-final.conf
 
 # ------------------------------------------------------------------------------------------------
