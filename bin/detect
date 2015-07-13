@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 # bin/detect <build-dir>
 
+release=`lsb_release -cs`
+
+if [ $release != 'trusty' ]
+	then
+	echo "Stack $release not supported, Please use cflinuxfs2 stack" && exit 1
+fi
+
 if [ -f $1/Staticfile ]; then
   echo "Static file" && exit 0
 else

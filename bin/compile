@@ -22,6 +22,11 @@ compile_buildpack_bin=$compile_buildpack_dir/bin
 source $compile_buildpack_dir/bin/common.sh
 
 compile_nginx_tgz="$compile_buildpack_dir/vendor/nginx-$nginx_version-$release.tar.gz"
+if [ ! -f $compile_nginx_tgz ]
+  then
+    echo "Stack $release not supported . Please use cflinuxfs2 stack"
+    exit 1
+fi
 cd $build_dir
 
 # Alternate root location (default is root of project) for html/js/css

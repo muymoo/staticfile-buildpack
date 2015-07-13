@@ -7,14 +7,15 @@ set -e #halt on any error
 pcre_version=8.37
 nginx_version=1.7.10.1
 release=`lsb_release -cs`
+newrelic_version=0.16.1.0-beta.x86_64
 sudo apt-get update
-sudo apt-get install -fy build-essential zlib1g-dev libreadline-dev libncurses5-dev libpcre3-dev libssl-dev perl make
+sudo apt-get install -fy build-essential zlib1g-dev libreadline-dev libncurses5-dev libpcre3-dev libssl-dev perl make curl
 
 if [ $release = "trusty" ]; then
     # We need libssl-dev to compile nginx on trusty
     sudo apt-get install -fy libssl-dev
+    newrelic_version=0.16.2.0-beta.x86_64
 fi
-
 
 src=~/src
 build=/app/openresty
@@ -33,12 +34,38 @@ make
 sudo make install
 sudo ldconfig # this is important otherwise nginx will compile but fail to load
 
+#Download the newrelic 
+cd $src
+wget http://download.newrelic.com/agent_sdk/nr_agent_sdk-v$newrelic_version.tar.gz
+tar -xvzf nr_agent_sdk-v$newrelic_version.tar.gz
+cd nr_agent_sdk-v$newrelic_version
+sudo cp include/*h /usr/include/
+sudo cp lib/*so /usr/lib/
+sudo ldconfig
+
+mkdir -p /tmp/newrelic-config
+cd $_
+declare -a arr=("config" "ngx_http_newrelic_module.c" "ngx_http_newrelic_module.h")
+
+## now loop through the above array
+for i in "${arr[@]}"
+do
+	wget https://raw.githubusercontent.com/yars/nginx_newrelic_module/master/$i --no-check-certificate
+done
+
 cd $src
 wget http://openresty.org/download/ngx_openresty-$nginx_version.tar.gz
 tar -xvzf ngx_openresty-$nginx_version.tar.gz
 cd ngx_openresty-$nginx_version
 
-./configure --prefix=$build  --with-pcre=$src/pcre-$pcre_version --with-http_ssl_module --with-http_gzip_static_module
+./configure \
+	--prefix=$build \
+	--with-pcre=$src/pcre-$pcre_version \
+	--with-http_ssl_module \
+	--with-http_gzip_static_module \
+	--with-luajit \
+	--add-module=/tmp/newrelic-config
+
 make
 sudo make install
 
