@@ -73,6 +73,11 @@ then
   $compile_buildpack_dir/compile-extensions/bin/download_dependency nginx-nr-agent.tar.gz /tmp
   tar xzf /tmp/nginx-nr-agent.tar.gz
   cp $compile_buildpack_dir/conf/nginx-nr-agent.ini .nginx-nr-agent/nginx-nr-agent.ini
+  if [ -f $build_dir/public/nginx-nr-agent.ini ]
+    then
+    status "Using the newrelic configuration provided "
+    mv $build_dir/public/nginx-nr-agent.ini .nginx-nr-agent/nginx-nr-agent.ini
+  fi
 fi
 
 
