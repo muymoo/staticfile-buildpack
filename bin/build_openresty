@@ -51,10 +51,10 @@ sudo mkdir -p $build/share/doc/nginx
 sudo cp $src/ngx_openresty-$openresty_version/README.markdown $build/share/doc/nginx
 
 cd /tmp/
-wget https://raw.githubusercontent.com/bungle/lua-resty-session/master/lib/resty/session.lua --no-check-certificate
+wget https://codeload.github.com/bungle/lua-resty-session/tar.gz/v2.2 -O lua-resty-session.tar.gz --no-check-certificate
+tar -xvzf lua-resty-session.tar.gz
 # Add lua-resty-session for session management
-sudo mv /tmp/session.lua $build/lualib/resty
-
+sudo cp -r /tmp/lua-resty-session-2.2/lib/resty $build/lualib
 
 # Archive it all up
 mkdir -p $target
