@@ -5,7 +5,7 @@
 set -e #halt on any error
 
 pcre_version=8.37
-openresty_version=1.7.10.2
+openresty_version=1.9.3.1
 sudo apt-get update
 sudo apt-get install -fy build-essential zlib1g-dev libreadline-dev libncurses5-dev libpcre3-dev libssl-dev perl make
 
