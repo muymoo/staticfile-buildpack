@@ -1,6 +1,8 @@
 Deploy static HTML/JS/CSS apps to Cloud Foundry
 -----------------------------------------------
 
+[![Join the chat at https://gitter.im/muymoo/staticfile-buildpack](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/muymoo/staticfile-buildpack?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Working on a pure front-end only web app or demo? It is easy to share it via your Cloud Foundry:
 
 ```
