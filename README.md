@@ -77,7 +77,7 @@ directory: visible
 
 You can customise the Nginx configuration further, by adding `nginx.conf` and/or `mime.types` to your root folder.
 
-If the buildpack detects either of these files, they will be used in place of the built-in versions. See the default [nginx.conf](https://github.com/cloudfoundry-incubator/staticfile-buildpack/blob/master/conf/nginx.conf) and [mime.types](https://github.com/cloudfoundry-incubator/staticfile-buildpack/blob/master/conf/nginx.conf) files for inspiration.
+If the buildpack detects either of these files, they will be used in place of the built-in versions. See the default [nginx.conf](https://github.com/cloudfoundry/staticfile-buildpack/blob/master/conf/nginx.conf) and [mime.types](https://github.com/cloudfoundry/staticfile-buildpack/blob/master/conf/mime.types) files for inspiration.
 
 Administrator Upload
 ====================
@@ -89,7 +89,7 @@ Everyone can automatically use this buildpack if your Cloud Foundry Administrato
 To initially install, say v0.5.1:
 
 ```
-wget https://github.com/cloudfoundry/staticfile-buildpack/releases/download/v0.5.1/staticfile-buildpack-v0.5.2.zip
+wget https://github.com/cloudfoundry/staticfile-buildpack/releases/download/v0.5.1/staticfile-buildpack-v0.5.1.zip
 cf create-buildpack staticfiles_buildpack staticfile-buildpack-v0.5.1.zip 1
 ```
 
@@ -102,6 +102,11 @@ cf update-buildpack staticfiles_buildpack -p staticfile-buildpackv0.9.9.zip
 
 ### To create/upload from source repository
 
+1. Update git submodules
+  ```shell
+  git submodule update --init --recursive
+  ```
+
 1. Get latest buildpack dependencies
 
   ```shell
@@ -111,13 +116,13 @@ cf update-buildpack staticfiles_buildpack -p staticfile-buildpackv0.9.9.zip
 1. Build the buildpack
 
   ```shell
-  BUNDLE_GEMFILE=cf.Gemfile bundle exec buildpack-packager [ cached | uncached ]
+  BUNDLE_GEMFILE=cf.Gemfile bundle exec buildpack-packager [ --cached | --uncached ]
   ```
 
 1. Use in Cloud Foundry
 
   Upload the buildpack to your Cloud Foundry and optionally specify it by name
-  
+
   ```bash
   cf create-buildpack custom_node_buildpack node_buildpack-offline-custom.zip 1
   cf push my_app -b custom_node_buildpack
