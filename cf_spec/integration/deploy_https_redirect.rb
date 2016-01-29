@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'excon'
 
 describe 'deploy a staticfile app' do
-  let(:app) { Machete.deploy_app('staticfile_app') }
+  let(:app) { Machete.deploy_app('staticfile_https_app') }
   let(:browser) { Machete::Browser.new(app) }
 
   after do
@@ -13,25 +13,19 @@ describe 'deploy a staticfile app' do
     expect(app).to have_logged(/Buildpack version [\d\.]{5,}/)
     expect(app).to be_running
 
-    browser.visit_path('/')
-    expect(browser).to have_body('This is an example app for Cloud Foundry that is only static HTML/JS/CSS assets.')
+  end
 
-    browser.visit_path('/fixture.json')
-    expect(browser.content_type).to eq('application/json')
-
-    response = Excon.get("http://#{browser.base_url}/lots_of.js", headers: {
-      'Accept-Encoding' => 'gzip'
-    })
-    expect(response.headers['Content-Encoding']).to eq('gzip')
+  context 'visiting http' do
+    it 'receives a 301 redirect to https' do
+      response = Excon.get("http://#{browser.base_url}/")
+      expect(response.status).to eq(301)
+      expect(response.headers['Location']).to eq("https://#{browser.base_url}/")
+    end
   end
 
   context 'with a cached buildpack', :cached do
     it 'logs the files it downloads' do
       expect(app).to have_logged(/Downloaded \[file:\/\/.*\]/)
-    end
-
-    it 'does not call out over the internet' do
-      expect(app).to_not have_internet_traffic
     end
   end
 

@@ -35,10 +35,11 @@ erb $conf_file > $APP_ROOT/openresty/nginx/conf/nginx-final.conf
 
 # ------------------------------------------------------------------------------------------------
 
-touch $APP_ROOT/openresty/nginx/logs/access.log
-touch $APP_ROOT/openresty/nginx/logs/error.log
+mkfifo $APP_ROOT/openresty/nginx/logs/access.log
+mkfifo $APP_ROOT/openresty/nginx/logs/error.log
 
-(tail -f -n 0 $APP_ROOT/openresty/nginx/logs/*.log &)
+cat < $APP_ROOT/openresty/nginx/logs/access.log &
+(>&2 cat) < $APP_ROOT/openresty/nginx/logs/error.log &
+
 exec $APP_ROOT/openresty/nginx/sbin/nginx -p $APP_ROOT/openresty/nginx -c $APP_ROOT/openresty/nginx/conf/nginx-final.conf
-
 # ------------------------------------------------------------------------------------------------

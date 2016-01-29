@@ -1,3 +1,6 @@
+#Cloud Foundry Static Buildpack
+[![CF Slack](https://s3.amazonaws.com/buildpacks-assets/buildpacks-slack.svg)](http://slack.cloudfoundry.org)
+
 Deploy static HTML/JS/CSS apps to Cloud Foundry
 -----------------------------------------------
 
@@ -28,8 +31,7 @@ cf push my-site -m 64M
 
 Why `-m 64M`? Your static assets will be served by [Nginx](http://nginx.com/) and it only requires 20M \[[reference](http://wiki.nginx.org/WhyUseIt)]. The `-m 64M` reduces the RAM allocation from the default 1G allocated to Cloud Foundry containers. In the future there may be a way for a buildpack to indicate its default RAM requirements; but not as of writing.
 
-Configuration
-=============
+## Configuration
 
 ### Alternate root folder
 
@@ -77,10 +79,9 @@ directory: visible
 
 You can customise the Nginx configuration further, by adding `nginx.conf` and/or `mime.types` to your root folder.
 
-If the buildpack detects either of these files, they will be used in place of the built-in versions. See the default [nginx.conf](https://github.com/cloudfoundry-incubator/staticfile-buildpack/blob/master/conf/nginx.conf) and [mime.types](https://github.com/cloudfoundry-incubator/staticfile-buildpack/blob/master/conf/nginx.conf) files for inspiration.
+If the buildpack detects either of these files, they will be used in place of the built-in versions. See the default [nginx.conf](https://github.com/cloudfoundry/staticfile-buildpack/blob/master/conf/nginx.conf) and [mime.types](https://github.com/cloudfoundry/staticfile-buildpack/blob/master/conf/mime.types) files for inspiration.
 
-Administrator Upload
-====================
+## Administrator Upload
 
 Everyone can automatically use this buildpack if your Cloud Foundry Administrator uploads it.
 
@@ -89,7 +90,7 @@ Everyone can automatically use this buildpack if your Cloud Foundry Administrato
 To initially install, say v0.5.1:
 
 ```
-wget https://github.com/cloudfoundry/staticfile-buildpack/releases/download/v0.5.1/staticfile-buildpack-v0.5.2.zip
+wget https://github.com/cloudfoundry/staticfile-buildpack/releases/download/v0.5.1/staticfile-buildpack-v0.5.1.zip
 cf create-buildpack staticfiles_buildpack staticfile-buildpack-v0.5.1.zip 1
 ```
 
@@ -102,6 +103,11 @@ cf update-buildpack staticfiles_buildpack -p staticfile-buildpackv0.9.9.zip
 
 ### To create/upload from source repository
 
+1. Update git submodules
+  ```shell
+  git submodule update --init --recursive
+  ```
+
 1. Get latest buildpack dependencies
 
   ```shell
@@ -111,30 +117,42 @@ cf update-buildpack staticfiles_buildpack -p staticfile-buildpackv0.9.9.zip
 1. Build the buildpack
 
   ```shell
-  BUNDLE_GEMFILE=cf.Gemfile bundle exec buildpack-packager [ cached | uncached ]
+  BUNDLE_GEMFILE=cf.Gemfile bundle exec buildpack-packager [ --cached | --uncached ]
   ```
 
 1. Use in Cloud Foundry
 
   Upload the buildpack to your Cloud Foundry and optionally specify it by name
-  
+
   ```bash
   cf create-buildpack custom_node_buildpack node_buildpack-offline-custom.zip 1
   cf push my_app -b custom_node_buildpack
   ```
 
+## Testing
+Buildpacks use the [Machete](https://github.com/cloudfoundry/machete) framework for running integration tests.
 
-Reporting Issues
-================
+To test a buildpack, run the following command from the buildpack's directory:
+
+```
+BUNDLE_GEMFILE=cf.Gemfile bundle exec buildpack-build
+```
+
+More options can be found on Machete's [Github page.](https://github.com/cloudfoundry/machete)
+
+
+## Help and Support
+
+Join the #buildpacks channel in our [Slack community] (http://slack.cloudfoundry.org/) 
+
+## Reporting Issues
 
 Open an issue on this project.
 
-Active Development
-==================
+## Active Development
 
 The project backlog is on [Pivotal Tracker](https://www.pivotaltracker.com/projects/1042066).
 
-Acknowledgements
-================
+## Acknowledgements
 
 This buildpack is based heavily upon Jordon Bedwell's Heroku buildpack and the modifications by David Laing for Cloud Foundry [nginx-buildpack](https://github.com/cloudfoundry-community/nginx-buildpack). It has been tuned for usability (configurable with `Staticfile`) and to be included as a default buildpack (detects `Staticfile` rather than the presence of an `index.html`). Thanks for the buildpack Jordon!
