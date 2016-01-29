@@ -23,13 +23,13 @@ url_to_dependency_map:
 dependencies:
   - name: openresty
     version: 1.9.3.1
-    uri: https://raw.githubusercontent.com/muymoo/staticfile-buildpack/files/vendor/openresty-1.9.7.3.tar.gz
+    uri: https://raw.githubusercontent.com/sks/staticfile-buildpack/files/vendor/openresty-1.9.7.3.tar.gz
     cf_stacks:
       - cflinuxfs2
     md5: 3d89009b86903960f0c3a8fc305617a2
   - name: nginx-nr-agent
     version: 2.0.0.6
-    uri: https://raw.githubusercontent.com/muymoo/staticfile-buildpack/files/vendor/nginx-nr-agent.tar.gz
+    uri: https://raw.githubusercontent.com/sks/staticfile-buildpack/files/vendor/nginx-nr-agent.tar.gz
     cf_stacks:
       - cflinuxfs2
     md5: 56dee8b30bb56bc368ed6965cce72707
