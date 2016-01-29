@@ -1,3 +1,43 @@
+v1.3.1 Jan 28, 2016
+====================
+
+* Update nginx from 1.9.9 to 1.9.10
+  (https://www.pivotaltracker.com/story/show/112526103)
+
+  Note that nginx 1.9.10 is a security update for the [following CVEs](http://mailman.nginx.org/pipermail/nginx-announce/2016/000169.html?_ga=1.134019406.1734013177.1444677334):
+  * CVE-2016-0742
+  * CVE-2016-0746
+  * CVE-2016-0747
+
+v1.3.0 Dec 30, 2015
+====================
+
+* added nginx 1.9.9, drop 1.8.0
+  (https://www.pivotaltracker.com/story/show/110627622)
+
+* correctly redirect http to https
+
+v1.2.3 Nov 16, 2015
+====================
+
+* Nginx log files no longer are no longer written to disk, but
+  instead are piped to stdout/stderr.
+  (https://www.pivotaltracker.com/story/show/107057846)
+
+
+v1.2.2 2015-10-24
+====================
+
+* Improve error messages for alternate root directory issues
+  (https://www.pivotaltracker.com/story/show/106553928)
+
+* bin/detect script emits buildpack name and version
+  (https://www.pivotaltracker.com/story/show/100757820)
+
+* Log the location of downloaded resources
+  (https://www.pivotaltracker.com/story/show/100853260)
+
+
 v1.2.1 Jul 16, 2015
 ====================
 
@@ -27,7 +67,7 @@ v1.1.1 Jun 15, 2015
 
 * Bump compile extensions
   (https://www.pivotaltracker.com/story/show/96957294)
-    
+
 v1.1.0 Jun 05, 2015
 ====================
 
