@@ -32,4 +32,4 @@ dependencies:
     uri: https://raw.githubusercontent.com/sks/staticfile-buildpack/files/vendor/nginx-nr-agent.tar.gz
     cf_stacks:
       - cflinuxfs2
-    md5: 56dee8b30bb56bc368ed6965cce72707
+    md5: 1d674e2c403a48743d90830b2c7172b1

@@ -25,6 +25,30 @@ describe 'deploy a staticfile app' do
     expect(response.headers['Content-Encoding']).to eq('gzip')
   end
 
+  context 'requesting a non-compressed version of a compressed file' do
+    context 'with a client that can handle receiving compressed content' do
+      let(:compressed_flag) { '--compressed' }
+
+      it 'returns and handles the file' do
+        expect(app).to be_running
+
+        content = `curl #{compressed_flag} http://#{browser.base_url}/war_and_peace.txt`
+        expect(content).to include("Leo Tolstoy")
+      end
+    end
+
+    context 'with a client that cannot handle receiving compressed content' do
+      let(:compressed_flag) { '' }
+
+      it 'returns and handles the file' do
+        expect(app).to be_running
+
+        content = `curl #{compressed_flag} http://#{browser.base_url}/war_and_peace.txt`
+        expect(content).to include("Leo Tolstoy")
+      end
+    end
+  end
+
   context 'with a cached buildpack', :cached do
     it 'logs the files it downloads' do
       expect(app).to have_logged(/Downloaded \[file:\/\/.*\]/)
@@ -38,6 +62,10 @@ describe 'deploy a staticfile app' do
   context 'with a uncached buildpack', :uncached do
     it 'logs the files it downloads' do
       expect(app).to have_logged(/Downloaded \[https:\/\/.*\]/)
+    end
+
+    it "uses a proxy during staging if present" do
+      expect(app).to use_proxy_during_staging
     end
   end
 end

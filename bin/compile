@@ -26,8 +26,8 @@ cd $build_dir
 
 # Alternate root location (default is root of project) for html/js/css
 # root: dist/
-if [[ "$(grep root: Staticfile)X" != "X" ]]; then
-  root_dir=$(grep root: Staticfile | sed -e 's/^root: *//;s/\s*$//')
+if [[ -e "Staticfile" && "$(grep 'root:' Staticfile)X" != "X" ]]; then
+  root_dir=$(grep 'root:' Staticfile | sed -e 's/^root: *//;s/\s*$//')
   status "Root folder $root_dir"
 else
   status "Using root folder"
@@ -41,13 +41,17 @@ if [[ ! -d ${root_dir} ]] ; then
 fi
 
 status "Copying project files into public/"
-mkdir -p $cache_dir/public
-rsync -a \
-      --exclude='/Staticfile' \
-      --exclude='/Staticfile.auth' \
-      --exclude='/manifest.yml' \
-      --exclude='/stackato.yml' \
-      $root_dir/ $build_dir/public
+shopt -s extglob
+root_dir_absolute=`cd $root_dir 2>/dev/null && pwd -P`
+if [ ${build_dir}/public != ${root_dir_absolute} ]; then
+  tmp_dir=`mktemp -d /tmp/XXXXX`
+  mv $root_dir_absolute/!(Staticfile|Staticfile.auth|manifest.yml|stackato.yml) $tmp_dir || true
+  rm -rf $build_dir/public
+  mv $tmp_dir  $build_dir/public
+fi
+shopt -u extglob
+
+
 
 status "Setting up nginx"
 tar xzf $compile_nginx_tgz
@@ -69,7 +73,7 @@ if [[ -f Staticfile.auth ]]; then
 fi
 
 # Enable directory index
-if [[ "$(grep directory: Staticfile)X" != "X" ]]; then
+if [[ -e "Staticfile" && "$(grep 'directory:' Staticfile)X" != "X" ]]; then
   status "Enabling directory index for folders without index.html files"
   touch openresty/nginx/conf/.enable_directory_index
 fi
@@ -84,6 +88,17 @@ then
   [[ -f $build_dir/public/nginx-nr-agent.ini ]] && mv $build_dir/public/nginx-nr-agent.ini .nginx-nr-agent/nginx-nr-agent.ini
 fi
 
+# Enable ssi module
+if [[ -e "Staticfile" && "$(grep 'ssi: enabled' Staticfile)X" != "X" ]]; then
+  status "Enabling ssi"
+  touch nginx/conf/.enable_ssi
+fi
+
+# Enable pushstate module
+if [[ -e "Staticfile" && "$(grep 'pushstate: enabled' Staticfile)X" != "X" ]]; then
+  status "Enabling pushstate"
+  touch nginx/conf/.enable_pushstate
+fi
 
 cp $compile_buildpack_bin/boot.sh .
 cp $compile_buildpack_bin/get_env .

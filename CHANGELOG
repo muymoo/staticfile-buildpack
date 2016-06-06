@@ -1,3 +1,62 @@
+=======
+v1.3.9 Jun 01, 2016
+====================
+
+* Add nginx 1.11.1, remove nginx 1.9.15
+  (https://www.pivotaltracker.com/story/show/120614839)
+
+v1.3.8 May 09, 2016
+====================
+
+* Add a way to make nginx more HTML5 push state friendly
+  (https://www.pivotaltracker.com/story/show/118545199)
+
+v1.3.7 Apr 22, 2016
+====================
+
+* Add nginx 1.9.15, remove nginx 1.9.12
+  (https://www.pivotaltracker.com/story/show/117934027)
+
+* Remove extraneous grep Staticfile error messages when pushing without Staticfile
+  (https://www.pivotaltracker.com/story/show/117950873)
+
+* Enable `gzip_static` and `gunzip` by default
+  (https://www.pivotaltracker.com/story/show/109491060)
+
+v1.3.6 Apr 06, 2016
+====================
+
+* Add nginx 1.9.14, remove nginx 1.9.12
+  (https://www.pivotaltracker.com/story/show/116842725)
+
+v1.3.5 Mar 22, 2016
+====================
+
+* Fix bug where you cannot have `public` dir inside app root
+  (https://www.pivotaltracker.com/story/show/116068383)
+
+v1.3.4 Mar 21, 2016
+====================
+
+* Toggle for ssi in Staticfile
+  (https://www.pivotaltracker.com/story/show/111667592)
+
+* Specify charset of HTML chars in nginx.conf
+
+v1.3.3 Mar 14, 2016
+====================
+
+* Reduce disk usage by moving files instead of copying them into the `public` directory
+  (https://www.pivotaltracker.com/story/show/112908945)
+
+v1.3.2 Mar 07, 2016
+====================
+
+* Update nginx from 1.9.9 to 1.9.10
+  (https://www.pivotaltracker.com/story/show/114349749)
+
+  Note that nginx 1.9.10 is mainly a feature / bugfix release
+
 v1.3.1 Jan 28, 2016
 ====================
 
@@ -79,7 +138,7 @@ v1.0.0 Apr 29, 2015
 ====================
 - Add Machete rspec integration tests
   (https://www.pivotaltracker.com/story/show/89505182)
-    
+
 
 v0.5.2
 ====================
@@ -97,4 +156,3 @@ v0.5.0
 - Use rsync rather than mv to ensure correct files present in public/ [thanks @edmorley]
 - add text/cache-manifest mime type for .manifest files [thanks @hairmare]
 - Ensure that trailing slash redirects don't include `ENV[PORT]` [thanks @mrdavidlaing]
-
